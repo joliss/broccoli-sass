@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "mkdirp": "~0.3.5",
-    "node-sass": "~0.8.1"
+    "node-sass": "~0.8.1",
+    "broccoli-filter": "~0.0.1"
   }
 }
