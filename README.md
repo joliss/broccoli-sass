@@ -28,7 +28,7 @@ var outputTree = compileSass(inputTrees, inputFile, outputFile, options)
 * **`options`**: A hash of options for libsass. Supported options are
   `imagePath`, `outputStyle`, `sourceComments`, and `sourceMap`.
 
-Example:
+### Example
 
 ```js
 var appCss = compileSass(sourceTrees, 'myapp/app.scss', 'assets/app.css')
