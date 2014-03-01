@@ -1,5 +1,7 @@
 # master
 
+* Initial working implementation
+
 # 0.0.1
 
-* Initial release
+* Initial placeholder release
