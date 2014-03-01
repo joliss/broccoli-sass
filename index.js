@@ -9,8 +9,6 @@ var _ = require('lodash')
 
 
 module.exports = SassCompiler
-// SassCompiler.prototype = Object.create(CachedTree.prototype)
-// SassCompiler.prototype.constructor = SassCompiler
 function SassCompiler (sourceTrees, inputFile, outputFile, options) {
   if (!(this instanceof SassCompiler)) return new SassCompiler(sourceTrees, inputFile, outputFile, options)
   this.sourceTrees = sourceTrees
