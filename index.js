@@ -40,3 +40,7 @@ SassCompiler.prototype.read = function (readTree) {
       return self._tmpDestDir
     })
 }
+
+SassCompiler.prototype.cleanup = function () {
+  quickTemp.remove(this, '_tmpDestDir')
+}
