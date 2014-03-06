@@ -1,5 +1,7 @@
 # master
 
+* Update package description
+
 # 0.1.1
 
 * Add missing cleanup method
