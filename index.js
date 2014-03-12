@@ -10,6 +10,7 @@ var _ = require('lodash')
 
 module.exports = SassCompiler
 function SassCompiler (sourceTrees, inputFile, outputFile, options) {
+  sourceTrees = _.isArray(sourceTrees) ? sourceTrees : [ sourceTrees ]
   if (!(this instanceof SassCompiler)) return new SassCompiler(sourceTrees, inputFile, outputFile, options)
   this.sourceTrees = sourceTrees
   this.inputFile = inputFile
