@@ -14,7 +14,7 @@ npm install --save-dev broccoli-sass
 ```js
 var compileSass = require('broccoli-sass');
 
-var outputTree = compileSass(inputTrees, inputFile, outputFile, options)
+var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 ```
 
 * **`inputTrees`**: An array of trees that act as the include paths for
@@ -31,5 +31,5 @@ var outputTree = compileSass(inputTrees, inputFile, outputFile, options)
 ### Example
 
 ```js
-var appCss = compileSass(sourceTrees, 'myapp/app.scss', 'assets/app.css')
+var appCss = compileSass(sourceTrees, 'myapp/app.scss', 'assets/app.css');
 ```
