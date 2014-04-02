@@ -1,5 +1,7 @@
 # master
 
+# 0.1.3
+
 * Use new broccoli-writer base class
 
 # 0.1.2
