@@ -1,5 +1,7 @@
 # master
 
+* Use new broccoli-writer base class
+
 # 0.1.2
 
 * Update package description
