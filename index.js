@@ -13,7 +13,7 @@ SassCompiler.prototype = Object.create(Writer.prototype)
 SassCompiler.prototype.constructor = SassCompiler
 function SassCompiler (sourceTrees, inputFile, outputFile, options) {
   if (!(this instanceof SassCompiler)) return new SassCompiler(sourceTrees, inputFile, outputFile, options)
-  this.sourceTrees = sourceTrees
+  this.sourceTrees = sourceTrees.inputTrees
   this.inputFile = inputFile
   this.outputFile = outputFile
   options = options || {}
