@@ -17,8 +17,8 @@ var compileSass = require('broccoli-sass');
 var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 ```
 
-* **`inputTrees`**: An array of trees that act as the include paths for
-  libsass. If you have a single tree, pass `[tree]`.
+* **`inputTrees`**: A tree or an array of trees that act as the include paths for
+  libsass.
 
 * **`inputFile`**: Relative path of the main `.scss` file to compile. This
   file must exist in one of the `inputTrees`.
