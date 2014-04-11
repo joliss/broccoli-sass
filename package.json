@@ -21,7 +21,8 @@
     "lodash": "~2.4.1",
     "promise-map-series": "^0.2.0",
     "include-path-searcher": "^0.1.0",
-    "node-sass": "^0.8.1",
-    "broccoli-writer": "^0.1.1"
+    "broccoli-writer": "^0.1.1",
+    "rsvp": "^3.0.6",
+    "node-sass": "^0.8.5"
   }
 }
