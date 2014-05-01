@@ -6,6 +6,7 @@ var Writer = require('broccoli-writer')
 var mapSeries = require('promise-map-series')
 var sass = require('node-sass')
 var _ = require('lodash')
+var rsvp = require('rsvp')
 
 
 module.exports = SassCompiler
@@ -27,16 +28,25 @@ function SassCompiler (sourceTrees, inputFile, outputFile, options) {
 
 SassCompiler.prototype.write = function (readTree, destDir) {
   var self = this
+  
   var destFile = destDir + '/' + this.outputFile
   mkdirp.sync(path.dirname(destFile))
   return mapSeries(this.sourceTrees, readTree)
     .then(function (includePaths) {
+      var deferred = rsvp.defer();
       var sassOptions = {
         file: includePathSearcher.findFileSync(self.inputFile, includePaths),
-        includePaths: includePaths
+        includePaths: includePaths,
+        outFile: destFile,
+        success: function() {
+          deferred.resolve();
+        },
+        error: function(err) {
+          deferred.reject(err);
+        }
       }
       _.merge(sassOptions, self.sassOptions)
-      var css = sass.renderSync(sassOptions)
-      fs.writeFileSync(destFile, css, { encoding: 'utf8' })
+      sass.renderFile(sassOptions)
+      return deferred.promise;
     })
 }
