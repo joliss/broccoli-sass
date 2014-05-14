@@ -17,13 +17,7 @@ function SassCompiler (sourceTrees, inputFile, outputFile, options) {
   this.sourceTrees = sourceTrees
   this.inputFile = inputFile
   this.outputFile = outputFile
-  options = options || {}
-  this.sassOptions = {
-    imagePath: options.imagePath,
-    outputStyle: options.outputStyle,
-    sourceComments: options.sourceComments,
-    sourceMap: options.sourceMap
-  }
+  this.sassOptions = options || {}
 }
 
 SassCompiler.prototype.write = function (readTree, destDir) {
