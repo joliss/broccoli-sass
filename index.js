@@ -22,7 +22,8 @@ function SassCompiler (sourceTrees, inputFile, outputFile, options) {
     imagePath: options.imagePath,
     outputStyle: options.outputStyle,
     sourceComments: options.sourceComments,
-    sourceMap: options.sourceMap
+    sourceMap: options.sourceMap,
+    includePaths: options.includePaths
   }
 }
 
@@ -36,7 +37,6 @@ SassCompiler.prototype.write = function (readTree, destDir) {
       var deferred = rsvp.defer();
       var sassOptions = {
         file: includePathSearcher.findFileSync(self.inputFile, includePaths),
-        includePaths: includePaths,
         outFile: destFile,
         success: function() {
           deferred.resolve();
@@ -46,6 +46,12 @@ SassCompiler.prototype.write = function (readTree, destDir) {
         }
       }
       _.merge(sassOptions, self.sassOptions)
+      if (self.sassOptions.includePaths) {
+        sassOptions.includePaths = includePaths.concat(self.sassOptions.includePaths);
+      }
+      else {
+        sassOptions.includePaths = includePaths;
+      }
       sass.renderFile(sassOptions)
       return deferred.promise;
     })
