@@ -23,6 +23,6 @@
     "include-path-searcher": "^0.1.0",
     "broccoli-writer": "^0.1.1",
     "rsvp": "^3.0.6",
-    "node-sass": "^0.8.5"
+    "node-sass": "~0.9.2"
   }
 }
