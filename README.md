@@ -25,8 +25,10 @@ var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 
 * **`outputFile`**: Relative path of the output CSS file.
 
-* **`options`**: A hash of options for libsass. Supported options are
-  `imagePath`, `outputStyle`, `sourceComments`, and `sourceMap`.
+* **`options`**: A hash of options for `node-sass`. 
+  See [the docs](https://github.com/andrew/node-sass)
+  for more info about available options. The
+  `file`, `data`, `success` and `error` options are not supported.
 
 ### Example
 
