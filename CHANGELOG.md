@@ -1,5 +1,7 @@
 # master
 
+* Upgrade to node-sass ^0.9.2
+
 # 0.1.4
 
 * Upgrade to node-sass 0.8.5 and make source maps work
