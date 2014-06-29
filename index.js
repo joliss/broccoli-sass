@@ -14,6 +14,7 @@ SassCompiler.prototype = Object.create(Writer.prototype)
 SassCompiler.prototype.constructor = SassCompiler
 function SassCompiler (sourceTrees, inputFile, outputFile, options) {
   if (!(this instanceof SassCompiler)) return new SassCompiler(sourceTrees, inputFile, outputFile, options)
+  if (!Array.isArray(sourceTrees)) throw new Error('Expected array for first argument - did you mean [tree] instead of tree?')
   this.sourceTrees = sourceTrees
   this.inputFile = inputFile
   this.outputFile = outputFile
@@ -28,7 +29,7 @@ function SassCompiler (sourceTrees, inputFile, outputFile, options) {
 
 SassCompiler.prototype.write = function (readTree, destDir) {
   var self = this
-  
+
   var destFile = destDir + '/' + this.outputFile
   mkdirp.sync(path.dirname(destFile))
   return mapSeries(this.sourceTrees, readTree)
