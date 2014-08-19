@@ -1,5 +1,7 @@
 # master
 
+# 0.2.2
+
 * Add support for `precision` option
 
 # 0.2.1
