@@ -1,5 +1,7 @@
 # master
 
+* Add support for `precision` option
+
 # 0.2.1
 
 * Guard against passing a tree instead of array
