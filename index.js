@@ -23,7 +23,8 @@ function SassCompiler (sourceTrees, inputFile, outputFile, options) {
     imagePath: options.imagePath,
     outputStyle: options.outputStyle,
     sourceComments: options.sourceComments,
-    sourceMap: options.sourceMap
+    sourceMap: options.sourceMap,
+    precision: options.precision
   }
 }
 
