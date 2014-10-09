@@ -1,21 +1,20 @@
-var fs = require('fs')
 var path = require('path')
 var mkdirp = require('mkdirp')
 var includePathSearcher = require('include-path-searcher')
-var Writer = require('broccoli-writer')
-var mapSeries = require('promise-map-series')
+var CachingWriter = require('broccoli-caching-writer')
 var sass = require('node-sass')
 var _ = require('lodash')
-var rsvp = require('rsvp')
-
+var Promise = require('rsvp').Promise
 
 module.exports = SassCompiler
-SassCompiler.prototype = Object.create(Writer.prototype)
+SassCompiler.prototype = Object.create(CachingWriter.prototype)
 SassCompiler.prototype.constructor = SassCompiler
-function SassCompiler (sourceTrees, inputFile, outputFile, options) {
-  if (!(this instanceof SassCompiler)) return new SassCompiler(sourceTrees, inputFile, outputFile, options)
-  if (!Array.isArray(sourceTrees)) throw new Error('Expected array for first argument - did you mean [tree] instead of tree?')
-  this.sourceTrees = sourceTrees
+function SassCompiler (inputTrees, inputFile, outputFile, options) {
+  if (!(this instanceof SassCompiler)) return new SassCompiler(inputTrees, inputFile, outputFile, options)
+  if (!Array.isArray(inputTrees)) throw new Error('Expected array for first argument - did you mean [tree] instead of tree?')
+
+  CachingWriter.call(this, inputTrees, options)
+
   this.inputFile = inputFile
   this.outputFile = outputFile
   options = options || {}
@@ -28,27 +27,26 @@ function SassCompiler (sourceTrees, inputFile, outputFile, options) {
   }
 }
 
-SassCompiler.prototype.write = function (readTree, destDir) {
+
+SassCompiler.prototype.updateCache = function(includePaths, destDir) {
   var self = this
 
-  var destFile = destDir + '/' + this.outputFile
-  mkdirp.sync(path.dirname(destFile))
-  return mapSeries(this.sourceTrees, readTree)
-    .then(function (includePaths) {
-      var deferred = rsvp.defer();
-      var sassOptions = {
-        file: includePathSearcher.findFileSync(self.inputFile, includePaths),
-        includePaths: includePaths,
-        outFile: destFile,
-        success: function() {
-          deferred.resolve();
-        },
-        error: function(err) {
-          deferred.reject(err);
-        }
+  return new Promise(function(resolve, reject) {
+    var destFile = destDir + self.outputFile
+    mkdirp.sync(path.dirname(destFile))
+
+    var sassOptions = {
+      file: includePathSearcher.findFileSync(self.inputFile, includePaths),
+      includePaths: includePaths,
+      outFile: destFile,
+      success: function() {
+        resolve(this)
+      },
+      error: function(err) {
+        reject(err)
       }
-      _.merge(sassOptions, self.sassOptions)
-      sass.renderFile(sassOptions)
-      return deferred.promise;
-    })
+    }
+    _.merge(sassOptions, self.sassOptions)
+    sass.renderFile(sassOptions)
+  })
 }
