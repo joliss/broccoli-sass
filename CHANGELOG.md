@@ -1,5 +1,7 @@
 # master
 
+# 0.2.3
+
 * Cache Sass output using broccoli-caching-writer
 
 # 0.2.2
