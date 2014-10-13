@@ -32,7 +32,7 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
   var self = this
 
   return new Promise(function(resolve, reject) {
-    var destFile = destDir + self.outputFile
+    var destFile = path.join(destDir, self.outputFile);
     mkdirp.sync(path.dirname(destFile))
 
     var sassOptions = {
