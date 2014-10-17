@@ -1,5 +1,9 @@
 # master
 
+# 0.2.4
+
+* Fix path handling issue
+
 # 0.2.3
 
 * Cache Sass output using broccoli-caching-writer
