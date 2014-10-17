@@ -1,4 +1,5 @@
 var path = require('path')
+var fs = require('fs')
 var mkdirp = require('mkdirp')
 var includePathSearcher = require('include-path-searcher')
 var CachingWriter = require('broccoli-caching-writer')
@@ -27,7 +28,6 @@ function SassCompiler (inputTrees, inputFile, outputFile, options) {
   }
 }
 
-
 SassCompiler.prototype.updateCache = function(includePaths, destDir) {
   var self = this
 
@@ -40,7 +40,12 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
       includePaths: includePaths,
       outFile: destFile,
       success: function() {
-        resolve(this)
+        if (!isAbsolutePath(self.sassOptions.sourceMap)) {
+          // node-sass uses a relative path for sourceMappingURL that breaks
+          // when the file is moved from broccoli's temporary directory
+          self.fixSourceMappingURL(destFile);
+        }
+        resolve()
       },
       error: function(err) {
         reject(err)
@@ -49,4 +54,17 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
     _.merge(sassOptions, self.sassOptions)
     sass.renderFile(sassOptions)
   })
+}
+
+SassCompiler.prototype.fixSourceMappingURL = function(destFile) {
+  var css = String(fs.readFileSync(destFile));
+  css = css.replace(
+    new RegExp('/\\*# sourceMappingURL=.* \\*/'),
+    '/*# sourceMappingURL=' + this.sassOptions.sourceMap + ' */'
+  );
+  fs.writeFileSync(destFile, css);
+};
+
+function isAbsolutePath(file) {
+  return path.resolve(file) === path.normalize(file).replace(RegExp(path.sep+'$'), '');
 }
