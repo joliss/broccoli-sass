@@ -1,5 +1,7 @@
 # master
 
+* Upgrade to node-sass ^1.0.1
+
 # 0.2.4
 
 * Fix path handling issue
