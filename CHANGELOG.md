@@ -1,5 +1,7 @@
 # master
 
+# 0.3.2
+
 * Fix broken release
 
 # 0.3.1
