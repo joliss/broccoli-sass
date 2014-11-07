@@ -1,5 +1,9 @@
 # master
 
+# 0.3.3
+
+* Upgrade to node-sass ^1.1.4
+
 # 0.3.2
 
 * Fix broken release
