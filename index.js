@@ -4,10 +4,10 @@ var includePathSearcher = require('include-path-searcher')
 var CachingWriter = require('broccoli-caching-writer')
 var sass = require('node-sass')
 var _ = require('lodash')
-var rsvp = require('rsvp');
+var rsvp = require('rsvp')
 var Promise = rsvp.Promise
 var fs = require('fs')
-var writeFile = rsvp.denodeify(fs.writeFile);
+var writeFile = rsvp.denodeify(fs.writeFile)
 
 module.exports = SassCompiler
 SassCompiler.prototype = Object.create(CachingWriter.prototype)
@@ -38,7 +38,7 @@ function SassCompiler (inputTrees, inputFile, outputFile, options) {
 SassCompiler.prototype.updateCache = function(includePaths, destDir) {
   return new Promise(function(resolve, reject) {
     var destFile = path.join(destDir, this.outputFile)
-    var sourceMapFile = this.sassOptions.sourceMap;
+    var sourceMapFile = this.sassOptions.sourceMap
     if (typeof sourceMapFile !== 'string') {
       sourceMapFile = destFile + '.map'
     }
@@ -49,11 +49,12 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
       includePaths: includePaths,
       outFile: destFile,
       success: function(result) {
-        resolve(Promise.all([
-          writeFile(destFile, result.css),
-          writeFile(sourceMapFile, JSON.stringify(result.map))
-        ]));
-      },
+        var promises = [writeFile(destFile, result.css)]
+        if (this.sassOptions.sourceMap) {
+          promises.push(writeFile(sourceMapFile, JSON.stringify(result.map)))
+        }
+        resolve(Promise.all(promises))
+      }.bind(this),
       error: function(err) {
         reject(err)
       }
