@@ -1,7 +1,7 @@
 {
   "name": "broccoli-sass",
   "description": "Libsass-based Sass compiler for Broccoli",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "author": "Jo Liss <joliss42@gmail.com>",
   "main": "index.js",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "include-path-searcher": "^0.1.0",
     "lodash": "~2.4.1",
     "mkdirp": "^0.3.5",
-    "node-sass": "^1.1.4",
+    "node-sass": "^2.0.1",
     "rsvp": "^3.0.6"
   }
 }
