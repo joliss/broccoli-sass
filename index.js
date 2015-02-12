@@ -51,7 +51,7 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
       success: function(result) {
         var promises = [writeFile(destFile, result.css)]
         if (this.sassOptions.sourceMap) {
-          promises.push(writeFile(sourceMapFile, JSON.stringify(result.map)))
+          promises.push(writeFile(sourceMapFile, result.map))
         }
         resolve(Promise.all(promises))
       }.bind(this),
