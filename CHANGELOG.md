@@ -1,5 +1,9 @@
 # master
 
+# 0.4.0
+
+* Upgrade to node-sass ^2.0.1
+
 # 0.3.3
 
 * Upgrade to node-sass ^1.1.4
