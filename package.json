@@ -22,7 +22,7 @@
   "dependencies": {
     "broccoli-caching-writer": "^0.5.5",
     "include-path-searcher": "^0.1.0",
-    "lodash": "~3.3.0",
+    "lodash": "^3.3.0",
     "mkdirp": "^0.5.0",
     "node-sass": "^2.0.1",
     "rsvp": "^3.0.17"
