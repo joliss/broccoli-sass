@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hipertracker/broccoli-sass"
+    "url": "https://github.com/joliss/broccoli-sass"
   },
   "keywords": [
     "broccoli-plugin",
