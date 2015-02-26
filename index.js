@@ -4,7 +4,6 @@ var mkdirp = require('mkdirp')
 var includePathSearcher = require('include-path-searcher')
 var CachingWriter = require('broccoli-caching-writer')
 var sass = require('node-sass')
-var _ = require('lodash')
 
 module.exports = SassCompiler
 SassCompiler.prototype = Object.create(CachingWriter.prototype)
@@ -17,13 +16,7 @@ function SassCompiler (inputTrees, inputFile, outputFile, options) {
 
   this.inputFile = inputFile
   this.outputFile = outputFile
-  options = options || {}
-  this.sassOptions = {
-    imagePath: options.imagePath,
-    outputStyle: options.outputStyle,
-    sourceComments: options.sourceComments,
-    precision: options.precision
-  }
+  this.options = options || {}
 }
 
 
@@ -36,8 +29,13 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
   var sassOptions = {
     file: includePathSearcher.findFileSync(self.inputFile, includePaths),
     includePaths: includePaths,
+
+    imagePath: this.options.imagePath,
+    outputStyle: this.options.outputStyle,
+    precision: this.options.precision,
+    sourceComments: this.options.sourceComments,
   }
-  _.merge(sassOptions, self.sassOptions)
+
   result = sass.renderSync(sassOptions)
   // libsass emits `@charset "UTF-8";`, so we must encode with UTF-8; see also
   // https://github.com/sass/node-sass/issues/711
