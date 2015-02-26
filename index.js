@@ -1,10 +1,10 @@
 var path = require('path')
+var fs = require('fs')
 var mkdirp = require('mkdirp')
 var includePathSearcher = require('include-path-searcher')
 var CachingWriter = require('broccoli-caching-writer')
 var sass = require('node-sass')
 var _ = require('lodash')
-var Promise = require('rsvp').Promise
 
 module.exports = SassCompiler
 SassCompiler.prototype = Object.create(CachingWriter.prototype)
@@ -22,7 +22,6 @@ function SassCompiler (inputTrees, inputFile, outputFile, options) {
     imagePath: options.imagePath,
     outputStyle: options.outputStyle,
     sourceComments: options.sourceComments,
-    sourceMap: options.sourceMap,
     precision: options.precision
   }
 }
@@ -31,22 +30,16 @@ function SassCompiler (inputTrees, inputFile, outputFile, options) {
 SassCompiler.prototype.updateCache = function(includePaths, destDir) {
   var self = this
 
-  return new Promise(function(resolve, reject) {
-    var destFile = path.join(destDir, self.outputFile)
-    mkdirp.sync(path.dirname(destFile))
+  var destFile = path.join(destDir, self.outputFile)
+  mkdirp.sync(path.dirname(destFile))
 
-    var sassOptions = {
-      file: includePathSearcher.findFileSync(self.inputFile, includePaths),
-      includePaths: includePaths,
-      outFile: destFile,
-      success: function() {
-        resolve(this)
-      },
-      error: function(err) {
-        reject(err)
-      }
-    }
-    _.merge(sassOptions, self.sassOptions)
-    sass.renderFile(sassOptions)
-  })
+  var sassOptions = {
+    file: includePathSearcher.findFileSync(self.inputFile, includePaths),
+    includePaths: includePaths,
+  }
+  _.merge(sassOptions, self.sassOptions)
+  result = sass.renderSync(sassOptions)
+  // libsass emits `@charset "UTF-8";`, so we must encode with UTF-8; see also
+  // https://github.com/sass/node-sass/issues/711
+  fs.writeFileSync(destFile, result.css, { encoding: 'utf8' })
 }

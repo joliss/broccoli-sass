@@ -1,5 +1,8 @@
 # master
 
+* Upgrade to node-sass 2.0.1
+* Remove defective source map support; we may bring it back later
+
 # 0.3.3
 
 * Upgrade to node-sass ^1.1.4
