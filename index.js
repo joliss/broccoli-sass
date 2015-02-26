@@ -1,7 +1,6 @@
 var path = require('path')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
-var includePathSearcher = require('include-path-searcher')
 var CachingWriter = require('broccoli-caching-writer')
 var sass = require('node-sass')
 
@@ -25,7 +24,7 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
   mkdirp.sync(path.dirname(destFile))
 
   var sassOptions = {
-    file: includePathSearcher.findFileSync(this.inputFile, includePaths),
+    file: path.join(includePaths[0], this.inputFile),
     includePaths: includePaths,
 
     imagePath: this.options.imagePath,

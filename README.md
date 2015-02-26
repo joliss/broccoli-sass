@@ -20,8 +20,9 @@ var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 * **`inputTrees`**: An array of trees that act as the include paths for
   libsass. If you have a single tree, pass `[tree]`.
 
-* **`inputFile`**: Relative path of the main `.scss` or `.sass` file to compile. This
-  file must exist in one of the `inputTrees`.
+* **`inputFile`**: Relative path of the main `.scss` or `.sass` file to compile.
+  Broccoli-sass expects to find this file in the *first* input tree
+  (`inputTrees[0]`).
 
 * **`outputFile`**: Relative path of the output CSS file.
 
@@ -31,5 +32,5 @@ var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 ### Example
 
 ```js
-var appCss = compileSass(sourceTrees, 'myapp/app.scss', 'assets/app.css');
+var appCss = compileSass(['styles', 'vendor'], 'myapp/app.scss', 'assets/app.css');
 ```

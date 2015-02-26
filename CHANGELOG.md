@@ -1,5 +1,7 @@
 # master
 
+* Look for main `.scss` file only in the first input tree (load path)
+
 # 0.4.0
 
 * Upgrade to node-sass 2.0.1
