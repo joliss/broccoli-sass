@@ -21,13 +21,11 @@ function SassCompiler (inputTrees, inputFile, outputFile, options) {
 
 
 SassCompiler.prototype.updateCache = function(includePaths, destDir) {
-  var self = this
-
-  var destFile = path.join(destDir, self.outputFile)
+  var destFile = path.join(destDir, this.outputFile)
   mkdirp.sync(path.dirname(destFile))
 
   var sassOptions = {
-    file: includePathSearcher.findFileSync(self.inputFile, includePaths),
+    file: includePathSearcher.findFileSync(this.inputFile, includePaths),
     includePaths: includePaths,
 
     imagePath: this.options.imagePath,
