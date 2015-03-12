@@ -1,5 +1,7 @@
 # master
 
+# 0.5.0
+
 * Look for main `.scss` file only in the first input tree (load path)
 
 # 0.4.0
