@@ -1,5 +1,7 @@
 # master
 
+# 0.6.0
+
 * Upgrade to node-sass 3.0.0-pre
 
 # 0.5.0
