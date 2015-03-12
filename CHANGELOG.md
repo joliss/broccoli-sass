@@ -1,5 +1,7 @@
 # master
 
+* Upgrade to node-sass 3.0.0-pre
+
 # 0.5.0
 
 * Look for main `.scss` file only in the first input tree (load path)
