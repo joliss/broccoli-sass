@@ -3,6 +3,8 @@
 The broccoli-sass plugin compiles `.scss` and `.sass` files with
 [libsass](https://github.com/hcatlin/libsass).
 
+[![NPM package](https://img.shields.io/npm/v/broccoli-sass.svg)](https://www.npmjs.com/package/broccoli-sass)
+
 ## Installation
 
 ```bash
