@@ -1,5 +1,5 @@
 {
-  "name": "broccoli-sass",
+  "name": "broccoli-sass-source-maps",
   "description": "Libsass-based Sass compiler for Broccoli",
   "version": "0.6.0",
   "author": "Jo Liss <joliss42@gmail.com>",
@@ -21,7 +21,7 @@
     "include-path-searcher": "^0.1.0",
     "lodash": "~2.4.1",
     "mkdirp": "^0.3.5",
-    "node-sass": "^3.0.0-pre"
+    "node-sass": "^3.0.0-alpha.0",
     "rsvp": "^3.0.6"
   }
 }
