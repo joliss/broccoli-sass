@@ -1,18 +1,24 @@
 # broccoli-sass
 
 The broccoli-sass plugin compiles `.scss` and `.sass` files with
-[libsass](https://github.com/hcatlin/libsass).
+[libsass](https://github.com/sass/libsass).
+
+This is a fork of broccoli-sass that includes support for more options and provides (partial)
+support for source maps by embedding the content of the SASS source files in the source map using `sourcesContent`.
+
+Be aware that the paths in the generated source map not correct, but this module does what I need
+until the [underlying issue](https://github.com/sass/libsass/issues/908) is resolved.
 
 ## Installation
 
 ```bash
-npm install --save-dev broccoli-sass
+npm install --save-dev broccoli-sass-source-maps
 ```
 
 ## Usage
 
 ```js
-var compileSass = require('broccoli-sass');
+var compileSass = require('broccoli-sass-source-maps');
 
 var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 ```

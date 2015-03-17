@@ -3,7 +3,7 @@ var mkdirp = require('mkdirp')
 var includePathSearcher = require('include-path-searcher')
 var CachingWriter = require('broccoli-caching-writer')
 var sass = require('node-sass')
-var merge = require('lodash-node/compat/object/merge')
+var assign = require('object-assign')
 var rsvp = require('rsvp')
 var Promise = rsvp.Promise
 var fs = require('fs')
@@ -47,21 +47,18 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
     var sassOptions = {
       file: includePathSearcher.findFileSync(this.inputFile, includePaths),
       includePaths: includePaths,
-      outFile: destFile,
-      success: function(result) {
-        // libsass emits `@charset "UTF-8";`, so we must encode with UTF-8; see also
-        // https://github.com/sass/node-sass/issues/711
-        var promises = [writeFile(destFile, result.css, { encoding: 'utf8' })]
-        if (this.sassOptions.sourceMap) {
-          promises.push(writeFile(sourceMapFile, result.map))
-        }
-        resolve(Promise.all(promises))
-      }.bind(this),
-      error: function(err) {
-        reject(err)
-      }
+      outFile: destFile
     }
-    merge(sassOptions, this.sassOptions)
-    sass.render(sassOptions)
+    assign(sassOptions, this.sassOptions)
+    sass.render(sassOptions, function(err, result) {
+      if (err) return reject(err)
+      // libsass emits `@charset "UTF-8";`, so we must encode with UTF-8; see also
+      // https://github.com/sass/node-sass/issues/711
+      var promises = [writeFile(destFile, result.css, { encoding: 'utf8' })]
+      if (this.sassOptions.sourceMap) {
+        promises.push(writeFile(sourceMapFile, result.map))
+      }
+      resolve(Promise.all(promises))
+    }.bind(this))
   }.bind(this))
 }
