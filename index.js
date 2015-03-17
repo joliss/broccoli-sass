@@ -3,7 +3,7 @@ var mkdirp = require('mkdirp')
 var includePathSearcher = require('include-path-searcher')
 var CachingWriter = require('broccoli-caching-writer')
 var sass = require('node-sass')
-var _ = require('lodash')
+var merge = require('lodash-node/compat/object/merge')
 var rsvp = require('rsvp')
 var Promise = rsvp.Promise
 var fs = require('fs')
@@ -59,7 +59,7 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
         reject(err)
       }
     }
-    _.merge(sassOptions, this.sassOptions)
+    merge(sassOptions, this.sassOptions)
     sass.render(sassOptions)
   }.bind(this))
 }
