@@ -1,5 +1,18 @@
 # master
 
+# 0.6.0
+
+* Upgrade to node-sass 3.0.0-pre
+
+# 0.5.0
+
+* Look for main `.scss` file only in the first input tree (load path)
+
+# 0.4.0
+
+* Upgrade to node-sass 2.0.1
+* Remove defective source map support; we may bring it back later
+
 # 0.3.3
 
 * Upgrade to node-sass ^1.1.4

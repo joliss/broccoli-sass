@@ -49,7 +49,9 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
       includePaths: includePaths,
       outFile: destFile,
       success: function(result) {
-        var promises = [writeFile(destFile, result.css)]
+        // libsass emits `@charset "UTF-8";`, so we must encode with UTF-8; see also
+        // https://github.com/sass/node-sass/issues/711
+        var promises = [writeFile(destFile, result.css, { encoding: 'utf8' })]
         if (this.sassOptions.sourceMap) {
           promises.push(writeFile(sourceMapFile, result.map))
         }
