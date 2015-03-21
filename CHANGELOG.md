@@ -1,5 +1,7 @@
 # master
 
+# 0.6.1
+
 * Update node-sass dependency
 
 # 0.6.0
