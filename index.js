@@ -34,7 +34,5 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
   }
 
   result = sass.renderSync(sassOptions)
-  // libsass emits `@charset "UTF-8";`, so we must encode with UTF-8; see also
-  // https://github.com/sass/node-sass/issues/711
-  fs.writeFileSync(destFile, result.css, { encoding: 'utf8' })
+  fs.writeFileSync(destFile, result.css)
 }
