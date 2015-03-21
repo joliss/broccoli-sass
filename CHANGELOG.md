@@ -1,5 +1,7 @@
 # master
 
+* Update node-sass dependency
+
 # 0.6.0
 
 * Upgrade to node-sass 3.0.0-pre
