@@ -19,6 +19,6 @@
   "dependencies": {
     "broccoli-caching-writer": "^0.5.0",
     "mkdirp": "^0.3.5",
-    "node-sass": "git+https://github.com/sass/node-sass#v3.0.0-alpha.1"
+    "node-sass": "3.0.0-beta.4"
   }
 }
