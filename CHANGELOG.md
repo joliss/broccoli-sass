@@ -1,5 +1,7 @@
 # master
 
+* Upgrade to node-sass 3.0.0-beta.7
+
 # 0.6.4
 
 * Upgrade to node-sass 3.0.0-beta.5
