@@ -22,7 +22,7 @@ function SassCompiler (inputTrees, inputFile, outputFile, options) {
   this.outputFile = outputFile
   options = options || {}
   this.sassOptions = {
-    imagePath: options.imagePath,
+    functions: options.functions,
     indentedSyntax: options.indentedSyntax,
     omitSourceMapUrl: options.omitSourceMapUrl,
     outputStyle: options.outputStyle,

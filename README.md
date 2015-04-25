@@ -33,7 +33,7 @@ var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 * **`outputFile`**: Relative path of the output CSS file.
 
 * **`options`**: A hash of options for libsass. Supported options are:
-  `imagePath`, `indentedSyntax`, `omitSourceMapUrl`, `outputStyle`, `precision`,
+  `functions`, `indentedSyntax`, `omitSourceMapUrl`, `outputStyle`, `precision`,
   `sourceComments`, `sourceMap`, `sourceMapEmbed`, and `sourceMapContents`.
 
 ### Example
