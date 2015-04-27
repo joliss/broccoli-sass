@@ -1,5 +1,9 @@
 # master
 
+* Upgrade to node-sass 3.0.0-beta.7
+* Remove `imagePath` from options documentation. Support for this was removed from node-sass/libsass
+* Add `functions` to options documentation. See https://github.com/sass/node-sass#functions--v300---experimental (Note that if losing `image-url` from sass is a problem for you, you can now implement it yourself as a custom function)
+
 # 0.6.4
 
 * Upgrade to node-sass 3.0.0-beta.5
