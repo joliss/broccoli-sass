@@ -36,6 +36,8 @@ var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
   `functions`, `indentedSyntax`, `omitSourceMapUrl`, `outputStyle`, `precision`,
   `sourceComments`, `sourceMap`, `sourceMapEmbed`, and `sourceMapContents`.
 
+* **`nodeSass`**: Allows a different version of [node-sass](https://www.npmjs.com/package/node-sass) to be used.
+
 ### Example
 
 ```js

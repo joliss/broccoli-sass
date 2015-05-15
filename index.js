@@ -2,7 +2,7 @@ var path = require('path')
 var mkdirp = require('mkdirp')
 var includePathSearcher = require('include-path-searcher')
 var CachingWriter = require('broccoli-caching-writer')
-var sass = require('node-sass')
+var nodeSass = require('node-sass')
 var assign = require('object-assign')
 var rsvp = require('rsvp')
 var Promise = rsvp.Promise
@@ -21,6 +21,9 @@ function SassCompiler (inputTrees, inputFile, outputFile, options) {
   this.inputFile = inputFile
   this.outputFile = outputFile
   options = options || {}
+  this.options = {
+    nodeSass: options.nodeSass
+  }
   this.sassOptions = {
     functions: options.functions,
     indentedSyntax: options.indentedSyntax,
@@ -50,6 +53,7 @@ SassCompiler.prototype.updateCache = function(includePaths, destDir) {
       outFile: destFile
     }
     assign(sassOptions, this.sassOptions)
+    var sass = this.options.nodeSass || nodeSass;
     sass.render(sassOptions, function(err, result) {
       if (err) return reject(err)
       var promises = [writeFile(destFile, result.css)]
