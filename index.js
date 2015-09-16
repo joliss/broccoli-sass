@@ -1,29 +1,37 @@
-var path = require('path')
-var mkdirp = require('mkdirp')
-var includePathSearcher = require('include-path-searcher')
-var CachingWriter = require('broccoli-caching-writer')
-var nodeSass = require('node-sass')
-var assign = require('object-assign')
-var rsvp = require('rsvp')
-var Promise = rsvp.Promise
-var fs = require('fs')
-var writeFile = rsvp.denodeify(fs.writeFile)
+var path = require('path');
+var mkdirp = require('mkdirp');
+var includePathSearcher = require('include-path-searcher');
+var CachingWriter = require('broccoli-caching-writer');
+var nodeSass = require('node-sass');
+var assign = require('object-assign');
+var rsvp = require('rsvp');
+var Promise = rsvp.Promise;
+var fs = require('fs');
+var writeFile = rsvp.denodeify(fs.writeFile);
 
-module.exports = SassCompiler
-SassCompiler.prototype = Object.create(CachingWriter.prototype)
-SassCompiler.prototype.constructor = SassCompiler
-function SassCompiler (inputTrees, inputFile, outputFile, options) {
-  if (!(this instanceof SassCompiler)) return new SassCompiler(inputTrees, inputFile, outputFile, options)
-  if (!Array.isArray(inputTrees)) throw new Error('Expected array for first argument - did you mean [tree] instead of tree?')
+module.exports = SassCompiler;
+SassCompiler.prototype = Object.create(CachingWriter.prototype);
+SassCompiler.prototype.constructor = SassCompiler;
 
-  CachingWriter.call(this, inputTrees, options)
+function SassCompiler (inputNodes, inputFile, outputFile, options) {
+  if (!(this instanceof SassCompiler)) { return new SassCompiler(inputNodes, inputFile, outputFile, options); }
+  if (!Array.isArray(inputNodes)) { throw new Error('Expected array for first argument - did you mean [tree] instead of tree?'); }
 
-  this.inputFile = inputFile
-  this.outputFile = outputFile
-  options = options || {}
+  CachingWriter.call(this, inputNodes, {
+    annotation: options.annotation
+  });
+
+  this.inputFile = inputFile;
+  this.outputFile = outputFile;
+  options = options || {};
   this.options = {
     nodeSass: options.nodeSass
-  }
+  };
+
+  var sass = this.options.nodeSass || nodeSass;
+
+  this.renderSass = rsvp.denodeify(sass.render);
+
   this.sassOptions = {
     functions: options.functions,
     indentedSyntax: options.indentedSyntax,
@@ -34,33 +42,36 @@ function SassCompiler (inputTrees, inputFile, outputFile, options) {
     sourceMap: options.sourceMap,
     sourceMapEmbed: options.sourceMapEmbed,
     sourceMapContents: options.sourceMapContents
+  };
+}
+
+SassCompiler.prototype.build = function() {
+  var destFile = path.join(this.outputPath, this.outputFile);
+  var sourceMapFile = this.sassOptions.sourceMap;
+
+  if (typeof sourceMapFile !== 'string') {
+    sourceMapFile = destFile + '.map';
   }
-}
 
+  mkdirp.sync(path.dirname(destFile));
 
-SassCompiler.prototype.updateCache = function(includePaths, destDir) {
-  return new Promise(function(resolve, reject) {
-    var destFile = path.join(destDir, this.outputFile)
-    var sourceMapFile = this.sassOptions.sourceMap
-    if (typeof sourceMapFile !== 'string') {
-      sourceMapFile = destFile + '.map'
+  var sassOptions = {
+    file: includePathSearcher.findFileSync(this.inputFile, this.inputPaths),
+    includePaths: this.inputPaths,
+    outFile: destFile
+  };
+
+  assign(sassOptions, this.sassOptions);
+
+  return this.renderSass(sassOptions).then(function(result) {
+    var files = [
+      writeFile(destFile, result.css)
+    ];
+
+    if (this.sassOptions.sourceMap) {
+      files.push(writeFile(sourceMapFile, result.map));
     }
-    mkdirp.sync(path.dirname(destFile))
 
-    var sassOptions = {
-      file: includePathSearcher.findFileSync(this.inputFile, includePaths),
-      includePaths: includePaths,
-      outFile: destFile
-    }
-    assign(sassOptions, this.sassOptions)
-    var sass = this.options.nodeSass || nodeSass;
-    sass.render(sassOptions, function(err, result) {
-      if (err) return reject(err)
-      var promises = [writeFile(destFile, result.css)]
-      if (this.sassOptions.sourceMap) {
-        promises.push(writeFile(sourceMapFile, result.map))
-      }
-      resolve(Promise.all(promises))
-    }.bind(this))
-  }.bind(this))
-}
+    return Promise.all(files);
+  }.bind(this));
+};
