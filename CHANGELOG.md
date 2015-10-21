@@ -1,5 +1,8 @@
 # master
 
+* Add `annotation` option
+* Update CachingWriter dependency
+
 # 0.6.7
 
 * Upgrade to node-sass ^3.3.3
