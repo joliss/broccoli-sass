@@ -1,5 +1,7 @@
 # master
 
+# 0.6.8
+
 * Add `annotation` option
 * Update CachingWriter dependency
 
