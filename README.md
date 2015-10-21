@@ -12,17 +12,17 @@ npm install --save-dev broccoli-sass
 ## Usage
 
 ```js
-var compileSass = require('broccoli-sass');
+var BroccoliSass = require('broccoli-sass');
 
-var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
+var outputNode = new BroccoliSass(inputNodes, inputFile, outputFile, options);
 ```
 
-* **`inputTrees`**: An array of trees that act as the include paths for
-  libsass. If you have a single tree, pass `[tree]`.
+* **`inputNodes`**: An array of nodes that act as the include paths for
+  libsass. If you have a single node, pass `[node]`.
 
 * **`inputFile`**: Relative path of the main `.scss` or `.sass` file to compile.
-  Broccoli-sass expects to find this file in the *first* input tree
-  (`inputTrees[0]`).
+  Broccoli-sass expects to find this file in the *first* input node
+  (`inputNodes[0]`).
 
 * **`outputFile`**: Relative path of the output CSS file.
 
@@ -32,5 +32,9 @@ var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 ### Example
 
 ```js
-var appCss = compileSass(['styles', 'vendor'], 'myapp/app.scss', 'assets/app.css');
+var appCss = new BroccoliSass(['styles', 'vendor'], 'myapp/app.scss', 'assets/app.css');
 ```
+
+This will compile `styles/myapp/app.scss` with `vendor` as an additional load
+path. The `appCss` node will contain a single `assets` directory with
+a large compiled `app.css` file in it.
