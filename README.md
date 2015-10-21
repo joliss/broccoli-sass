@@ -1,5 +1,7 @@
 # broccoli-sass
 
+[![Build Status](https://travis-ci.org/joliss/broccoli-sass.svg?branch=master)](https://travis-ci.org/joliss/broccoli-sass)
+
 The broccoli-sass plugin compiles `.scss` and `.sass` files with
 [libsass](https://github.com/hcatlin/libsass).
 
