@@ -18,7 +18,8 @@ function SassCompiler (inputNodes, inputFile, outputFile, options) {
   if (!Array.isArray(inputNodes)) { throw new Error('Expected array for first argument - did you mean [tree] instead of tree?'); }
 
   CachingWriter.call(this, inputNodes, {
-    annotation: options.annotation
+    annotation: options.annotation,
+    cacheInclude: [[/.*\.(sass|scss)/]]
   });
 
   this.inputFile = inputFile;
