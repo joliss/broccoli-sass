@@ -19,7 +19,7 @@ function SassCompiler (inputNodes, inputFile, outputFile, options) {
 
   CachingWriter.call(this, inputNodes, {
     annotation: options.annotation,
-    cacheInclude: [[/.*\.(sass|scss)/]]
+    cacheInclude: [/.*\.(sass|scss)/]
   });
 
   this.inputFile = inputFile;
