@@ -22,7 +22,7 @@
   "dependencies": {
     "broccoli-caching-writer": "^2.0.4",
     "mkdirp": "^0.3.5",
-    "node-sass": "^3.3.3"
+    "node-sass": "^3.4.1"
   },
   "devDependencies": {
     "broccoli-fixture": "^0.1.0",
