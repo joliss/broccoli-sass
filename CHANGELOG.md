@@ -1,5 +1,7 @@
 # master
 
+* Upgrade to node-sass ^3.4.1
+
 # 0.6.8
 
 * Add `annotation` option
