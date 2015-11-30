@@ -70,7 +70,7 @@ SassCompiler.prototype.build = function() {
       writeFile(destFile, result.css)
     ];
 
-    if (this.sassOptions.sourceMap) {
+    if (this.sassOptions.sourceMap && !this.sassOptions.sourceMapEmbed) {
       files.push(writeFile(sourceMapFile, result.map));
     }
 
