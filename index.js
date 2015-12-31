@@ -35,6 +35,7 @@ function SassCompiler (inputNodes, inputFile, outputFile, options) {
   this.renderSass = rsvp.denodeify(sass.render);
 
   this.sassOptions = {
+    importer: options.importer,
     functions: options.functions,
     indentedSyntax: options.indentedSyntax,
     omitSourceMapUrl: options.omitSourceMapUrl,
