@@ -47,3 +47,18 @@ var appCss = compileSass(['styles', 'vendor'], 'myapp/app.scss', 'assets/app.css
 ```
 
 [bcw-options]: https://github.com/ember-cli/broccoli-caching-writer/tree/979abf92c83af7d625b1fd35c94b4e5f56668b18#new-cachingwriterinputnodes-options
+
+## Choosing the version of node-sass
+
+You can specify which version of node-sass to use with the [`nodeSass` option](https://github.com/aexmachina/broccoli-sass-source-maps#usage). 
+
+Add the version that you want to use to _your_ package.json and then provide that version of the module using the `nodeSass` option:
+
+```js
+var compileSass = require('broccoli-sass-source-maps');
+var nodeSass = require('node-sass'); // loads the version in your package.json
+
+var outputTree = compileSass(inputTrees, inputFile, outputFile, {
+  nodeSass: nodeSass
+});
+```
