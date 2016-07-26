@@ -44,7 +44,7 @@ SassCompiler.prototype.build = function() {
     outputStyle: this.options.outputStyle,
     precision: this.options.precision,
     sourceComments: this.options.sourceComments,
-  }, sassOptions);
+  }, this.sassOptions);
 
   result = sass.renderSync(resolvedSassOptions)
   fs.writeFileSync(destFile, result.css)
