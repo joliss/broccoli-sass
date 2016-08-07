@@ -44,7 +44,8 @@ function SassCompiler (inputNodes, inputFile, outputFile, options) {
     sourceComments: options.sourceComments,
     sourceMap: options.sourceMap,
     sourceMapEmbed: options.sourceMapEmbed,
-    sourceMapContents: options.sourceMapContents
+    sourceMapContents: options.sourceMapContents,
+    sourceMapRoot: options.sourceMapRoot
   };
 }
 
