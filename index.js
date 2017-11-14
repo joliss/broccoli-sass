@@ -49,6 +49,26 @@ function SassCompiler (inputNodes, inputFile, outputFile, options) {
   };
 }
 
+/**
+ * Mutates the error to include properties expected by Ember CLI.
+ * See https://github.com/ember-cli/ember-cli/blob/master/docs/ERRORS.md#error-object
+ * @param {Error} error
+ */
+function rethrowBuildError(error) {
+  if (typeof error === 'string') {
+    throw new Error('[string exception] ' + error);
+  } else {
+    error.type = 'Sass Syntax Error';
+    error.message = error.formatted;
+    error.location = {
+      line: error.line,
+      column: error.column
+    };
+
+    throw error;
+  }
+}
+
 SassCompiler.prototype.build = function() {
   var destFile = path.join(this.outputPath, this.outputFile);
   var sourceMapFile = this.sassOptions.sourceMap;
@@ -77,5 +97,5 @@ SassCompiler.prototype.build = function() {
     }
 
     return Promise.all(files);
-  }.bind(this));
+  }.bind(this)).catch(rethrowBuildError);
 };
