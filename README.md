@@ -32,7 +32,7 @@ var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 
 * **`outputFile`**: Relative path of the output CSS file.
 
-* **`options`**: A hash of options for libsass and caching writer. 
+* **`options`**: An optional hash of options for libsass and caching writer. 
   * Supported options for libsass are:
   `functions`, `indentedSyntax`, `omitSourceMapUrl`, `outputStyle`, `precision`,
   `sourceComments`, `sourceMap`, `sourceMapEmbed`, and `sourceMapContents`.
@@ -50,7 +50,7 @@ var appCss = compileSass(['styles', 'vendor'], 'myapp/app.scss', 'assets/app.css
 
 ## Choosing the version of node-sass
 
-You can specify which version of node-sass to use with the [`nodeSass` option](https://github.com/aexmachina/broccoli-sass-source-maps#usage). 
+You can specify which version of node-sass to use with the [`nodeSass` option](https://github.com/aexmachina/broccoli-sass-source-maps#usage).
 
 Add the version that you want to use to _your_ package.json and then provide that version of the module using the `nodeSass` option:
 
