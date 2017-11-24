@@ -17,6 +17,8 @@ function SassCompiler (inputNodes, inputFile, outputFile, options) {
   if (!(this instanceof SassCompiler)) { return new SassCompiler(inputNodes, inputFile, outputFile, options); }
   if (!Array.isArray(inputNodes)) { throw new Error('Expected array for first argument - did you mean [tree] instead of tree?'); }
 
+  options = options || {};
+
   CachingWriter.call(this, inputNodes, {
     annotation: options.annotation,
     cacheInclude: options.cacheInclude,
@@ -25,7 +27,6 @@ function SassCompiler (inputNodes, inputFile, outputFile, options) {
 
   this.inputFile = inputFile;
   this.outputFile = outputFile;
-  options = options || {};
   this.options = {
     nodeSass: options.nodeSass
   };
