@@ -20,7 +20,7 @@
     "broccoli-caching-writer": "^3.0.3",
     "include-path-searcher": "^0.1.0",
     "mkdirp": "^0.3.5",
-    "node-sass": "^4.1.0",
+    "node-sass": "^4.7.2",
     "object-assign": "^2.0.0",
     "rsvp": "^3.0.6"
   },
