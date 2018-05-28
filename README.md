@@ -26,6 +26,22 @@ var compileSass = require('broccoli-sass-source-maps')(require('sass'));
 var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
 ```
 
+Note that when using Dart Sass, **synchronous compilation is twice as fast as
+asynchronous compilation** by default, due to the overhead of asynchronous
+callbacks. To avoid this overhead, you can use the [`fibers`][] package to call
+asynchronous importers from the synchronous code path. To enable this, pass the
+`Fiber` class to the `fiber` option:
+
+[`fibers`]: https://www.npmjs.com/package/fibers
+
+```javascript
+var compileSass = require('broccoli-sass-source-maps')(require('sass'));
+var Fiber = require('fibers');
+
+var outputTree = compileSass(inputTrees, inputFile, outputFile, {fiber: Fiber});
+```
+
+
 * **`inputTrees`**: An array of trees that act as the include paths for
   Sass. If you have a single tree, pass `[tree]`.
 

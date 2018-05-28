@@ -40,7 +40,8 @@ module.exports = function(sass) {
       sourceMap: options.sourceMap,
       sourceMapEmbed: options.sourceMapEmbed,
       sourceMapContents: options.sourceMapContents,
-      sourceMapRoot: options.sourceMapRoot
+      sourceMapRoot: options.sourceMapRoot,
+      fiber: options.fiber
     };
   }
 
