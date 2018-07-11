@@ -1,6 +1,11 @@
 # master
 
-* Upgrade to node-sass 3.0.0-beta.7
+* **Breaking change**: This plugin now requires users to explicitly specify which Sass implementation to use when `requiring()` the module. For example:
+
+  ```js
+  var compileSass = require('broccoli-sass-source-maps')(require('sass'));
+  ```
+
 * Remove `imagePath` from options documentation. Support for this was removed from node-sass/libsass
 * Add `functions` to options documentation. See https://github.com/sass/node-sass#functions--v300---experimental (Note that if losing `image-url` from sass is a problem for you, you can now implement it yourself as a custom function)
 
