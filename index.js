@@ -54,7 +54,6 @@ module.exports = function(sass) {
     if (typeof error === 'string') {
       throw new Error('[string exception] ' + error);
     } else {
-      console.log(error);
       error.type = 'Sass Syntax Error';
       error.message = error.formatted;
       error.location = {
@@ -76,7 +75,6 @@ module.exports = function(sass) {
 
     mkdirp.sync(path.dirname(destFile));
 
-    console.log('sass this.inputPaths', this.inputPaths, process.cwd(), path.join(process.cwd(), 'node_modules'))
     var sassOptions = {
       file: includePathSearcher.findFileSync(this.inputFile, this.inputPaths),
       loadPaths: [...this.inputPaths, process.cwd(),  path.join(process.cwd(), 'node_modules')],
