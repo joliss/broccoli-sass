@@ -27,18 +27,18 @@ module.exports = function(sass) {
     this.inputFile = inputFile;
     this.outputFile = outputFile;
 
-    this.renderSass = rsvp.denodeify(sass.render);
+    this.renderSass = sass.compileAsync;
 
     this.sassOptions = {
       importer: options.importer,
       functions: options.functions,
       indentedSyntax: options.indentedSyntax,
       omitSourceMapUrl: options.omitSourceMapUrl,
-      outputStyle: options.outputStyle,
+      style: options.outputStyle,
       precision: options.precision,
       sourceComments: options.sourceComments,
       sourceMap: options.sourceMap,
-      sourceMapEmbed: options.sourceMapEmbed,
+      sourceMapIncludeSources: options.sourceMapEmbed,
       sourceMapContents: options.sourceMapContents,
       sourceMapRoot: options.sourceMapRoot,
       fiber: options.fiber
@@ -54,6 +54,7 @@ module.exports = function(sass) {
     if (typeof error === 'string') {
       throw new Error('[string exception] ' + error);
     } else {
+      console.log(error);
       error.type = 'Sass Syntax Error';
       error.message = error.formatted;
       error.location = {
@@ -75,21 +76,22 @@ module.exports = function(sass) {
 
     mkdirp.sync(path.dirname(destFile));
 
+    console.log('sass this.inputPaths', this.inputPaths, process.cwd(), path.join(process.cwd(), 'node_modules'))
     var sassOptions = {
       file: includePathSearcher.findFileSync(this.inputFile, this.inputPaths),
-      includePaths: this.inputPaths,
+      loadPaths: [...this.inputPaths, process.cwd(),  path.join(process.cwd(), 'node_modules')],
       outFile: destFile
     };
 
     assign(sassOptions, this.sassOptions);
 
-    return this.renderSass(sassOptions).then(function(result) {
+    return this.renderSass(sassOptions.file, sassOptions).then(function(result) {
       var files = [
         writeFile(destFile, result.css)
       ];
 
       if (this.sassOptions.sourceMap && !this.sassOptions.sourceMapEmbed) {
-        files.push(writeFile(sourceMapFile, result.map));
+        files.push(writeFile(sourceMapFile, JSON.stringify(result.sourceMap)));
       }
 
       return Promise.all(files);
