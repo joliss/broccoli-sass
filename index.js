@@ -55,7 +55,7 @@ module.exports = function(sass) {
       throw new Error('[string exception] ' + error);
     } else {
       error.type = 'Sass Syntax Error';
-      error.message = error.formatted;
+      error.message = error.message;
       error.location = {
         line: error.line,
         column: error.column
