@@ -26,19 +26,41 @@ module.exports = function(sass) {
 
     this.inputFile = inputFile;
     this.outputFile = outputFile;
+    this.useRender = false;
 
-    this.renderSass = rsvp.denodeify(sass.render);
+    if (!sass.compileAsync) {
+      this.useRender = true;
+      this.renderSass = rsvp.denodeify(sass.render);
+
+      this.sassOptions = {
+        importer: options.importer,
+        functions: options.functions,
+        indentedSyntax: options.indentedSyntax,
+        omitSourceMapUrl: options.omitSourceMapUrl,
+        outputStyle: options.outputStyle,
+        precision: options.precision,
+        sourceComments: options.sourceComments,
+        sourceMap: options.sourceMap,
+        sourceMapEmbed: options.sourceMapEmbed,
+        sourceMapContents: options.sourceMapContents,
+        sourceMapRoot: options.sourceMapRoot,
+        fiber: options.fiber
+      };
+      return;
+    }
+
+    this.renderSass = sass.compileAsync;
 
     this.sassOptions = {
       importer: options.importer,
       functions: options.functions,
       indentedSyntax: options.indentedSyntax,
       omitSourceMapUrl: options.omitSourceMapUrl,
-      outputStyle: options.outputStyle,
+      style: options.outputStyle,
       precision: options.precision,
       sourceComments: options.sourceComments,
       sourceMap: options.sourceMap,
-      sourceMapEmbed: options.sourceMapEmbed,
+      sourceMapIncludeSources: options.sourceMapEmbed,
       sourceMapContents: options.sourceMapContents,
       sourceMapRoot: options.sourceMapRoot,
       fiber: options.fiber
@@ -55,7 +77,7 @@ module.exports = function(sass) {
       throw new Error('[string exception] ' + error);
     } else {
       error.type = 'Sass Syntax Error';
-      error.message = error.formatted;
+      error.message = error.formatted || error.message;
       error.location = {
         line: error.line,
         column: error.column
@@ -75,21 +97,42 @@ module.exports = function(sass) {
 
     mkdirp.sync(path.dirname(destFile));
 
+    if (this.useRender) {
+      var sassOptions = {
+        file: includePathSearcher.findFileSync(this.inputFile, this.inputPaths),
+        includePaths: this.inputPaths,
+        outFile: destFile
+      };
+
+      assign(sassOptions, this.sassOptions);
+      
+      return this.renderSass(sassOptions).then(function(result) {
+        var files = [
+          writeFile(destFile, result.css)
+        ];
+
+        if (this.sassOptions.sourceMap && !this.sassOptions.sourceMapEmbed) {
+          files.push(writeFile(sourceMapFile, result.map));
+        }
+        return Promise.all(files);
+      }.bind(this)).catch(rethrowBuildError);
+    }
+
     var sassOptions = {
       file: includePathSearcher.findFileSync(this.inputFile, this.inputPaths),
-      includePaths: this.inputPaths,
+      loadPaths: [...this.inputPaths, process.cwd(),  path.join(process.cwd(), 'node_modules')],
       outFile: destFile
     };
 
     assign(sassOptions, this.sassOptions);
 
-    return this.renderSass(sassOptions).then(function(result) {
+    return this.renderSass(sassOptions.file, sassOptions).then(function(result) {
       var files = [
         writeFile(destFile, result.css)
       ];
 
       if (this.sassOptions.sourceMap && !this.sassOptions.sourceMapEmbed) {
-        files.push(writeFile(sourceMapFile, result.map));
+        files.push(writeFile(sourceMapFile, JSON.stringify(result.sourceMap)));
       }
 
       return Promise.all(files);
