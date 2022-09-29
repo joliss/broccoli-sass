@@ -1,20 +1,23 @@
 {
   "name": "broccoli-sass-source-maps",
-  "description": "Libsass-based Sass compiler for Broccoli",
   "version": "4.0.0",
-  "author": "Jo Liss <joliss42@gmail.com>",
-  "main": "index.js",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aexmachina/broccoli-sass-source-maps"
-  },
+  "description": "Libsass-based Sass compiler for Broccoli",
   "keywords": [
     "broccoli-plugin",
     "sass",
     "scss",
     "css",
     "libsass"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adopted-ember-addons/broccoli-sass-source-maps"
+  },
+  "license": "MIT",
+  "author": "Jo Liss <joliss42@gmail.com>",
+  "main": "index.js",
+  "files": [
+    "*.js"
   ],
   "dependencies": {
     "broccoli-caching-writer": "^3.0.3",
@@ -23,7 +26,26 @@
     "object-assign": "^2.0.0",
     "rsvp": "^3.0.6"
   },
-  "files": [
-    "*.js"
-  ]
+  "devDependencies": {
+    "release-it": "^14.2.1",
+    "release-it-lerna-changelog": "^3.1.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
+  }
 }
